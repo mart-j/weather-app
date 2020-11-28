@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;600&display=swap');
+* {
+  box-sizing: border-box;
+  font-family: 'Montserrat Alternates', sans-serif;
+}
+
+body {
+  background-image: url('./assets/bcground.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

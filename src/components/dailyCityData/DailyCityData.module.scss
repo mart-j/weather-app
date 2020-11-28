@@ -1,0 +1,25 @@
+.wrapper {
+  border-radius: 10px;
+  background-color: rgba(243, 243, 243, 0.24);
+  display: flex;
+  padding: 30px;
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.164);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.column {
+  margin: 30px;
+}
+.column div {
+    font-weight: bold;
+  color: rgb(51, 51, 51);
+  font-size: 20px;
+}
+
+.column div:first-child {
+  margin-bottom: 30px;
+}
