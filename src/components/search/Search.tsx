@@ -1,33 +1,35 @@
-import React, { FC, RefObject, useState } from 'react';
+import React, { FC, RefObject } from 'react';
 import { CityType } from '../../Types';
 import styles from './Search.module.scss';
 
 interface Props {
   inputEl: RefObject<HTMLInputElement>;
-  clearInput: (key: string | number) => void;
-  inputChangeHandler: (value: string) => void;
+  keyPressHandler: (key: string | number) => void;
+  inputTextChangeHandler: (value: string) => void;
   searchCityResults: CityType[];
-  getCityData: (url: string, name: string, countr: string) => void;
+  getCityInfo: (url: string, name: string, countr: string) => void;
   selected: number;
 }
 
 const Search: FC<Props> = ({
-  getCityData,
+  getCityInfo,
   searchCityResults,
-  inputChangeHandler,
+  inputTextChangeHandler,
   inputEl,
-  clearInput,
+  keyPressHandler,
   selected,
 }) => {
+
+
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <input
           className={styles.input}
           placeholder="new york"
-          onKeyDown={(e) => clearInput(e.key)}
+          onKeyDown={(e) => keyPressHandler(e.key)}
           ref={inputEl}
-          onChange={(e) => inputChangeHandler(e.target.value)}
+          onChange={(e) => inputTextChangeHandler(e.target.value)}
         />
         <div className={styles.resultWrapper}>
           {searchCityResults?.map((item, i) => {
@@ -35,7 +37,7 @@ const Search: FC<Props> = ({
               <div
               
                 className={selected === i ? styles.active : styles.result}
-                onClick={() => getCityData(item.url, item.name, item.country)}
+                onClick={() => getCityInfo(item.url, item.name, item.country)}
                 key={item.url}
               >
                 {item.name}

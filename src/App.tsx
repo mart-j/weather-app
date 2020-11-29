@@ -16,50 +16,8 @@ const App = () => {
 
   const inputEl = useRef<HTMLInputElement>(null);
 
-  const inputChangeHandler = (value: string) => {
-    setInputValue(value);
-  };
-
-  const navigateSuggestions = (key: string | number) => {
-
-    if (key === 'ArrowUp') {
-      if (selected === 0) {
-        return;
-      }
-      setSelected(selected - 1);
-    } else if (key === 'ArrowDown'  && searchCityResults) {
-      if (selected >= searchCityResults?.length! -1) {
-        return;
-      }
-      setSelected(selected + 1);
-    }
-  };
-
-  const clearInput = (key: string | number) => {
-    navigateSuggestions(key);
-
-    if (key === 'Enter' && searchCityResults![selected]) {
-      inputEl.current!.value = '';
-      setRegion(searchCityResults![selected].url);
-      setCity(
-        searchCityResults![selected].name.slice(
-          0,
-          searchCityResults![selected].name.indexOf(','),
-        ),
-      );
-      setCountry(searchCityResults![selected].country);
-      setSearchCityResults([]);
-      setSelected(0);
-    }
-  };
-
-  const getCityData = (url: string, name: string, countr: string) => {
-    setRegion(url);
-    setCity(name.slice(0, name.indexOf(',')));
-    setCountry(countr);
-    inputEl.current!.value = '';
-    setSearchCityResults([]);
-    setSelected(0);
+  axios.defaults.params = {
+    key: '22aec32dda7c476e83f60437202811',
   };
 
   useEffect(() => {
@@ -74,10 +32,6 @@ const App = () => {
       )
       .then(({ data }) => setSearchCityResults(data));
   }, [inputValue]);
-
-  axios.defaults.params = {
-    key: '22aec32dda7c476e83f60437202811',
-  };
 
   const objectToApiUrl = (params: object) => {
     return Object.entries(params).reduce((acc, [key, value]) => {
@@ -99,15 +53,66 @@ const App = () => {
     });
   }, [city]);
 
+  const inputTextChangeHandler = (value: string) => {
+    setInputValue(value);
+  };
+
+  const navigateSuggestions = (key: string | number) => {
+    if (key === 'ArrowUp' && selected) {
+      setSelected(selected - 1);
+    } else if (
+      key === 'ArrowDown' &&
+      searchCityResults &&
+      !(selected >= searchCityResults?.length! - 1)
+    ) {
+      setSelected(selected + 1);
+    }
+  };
+
+  const keyPressHandler = (key: string | number) => {
+    navigateSuggestions(key);
+
+    if (key === 'Enter' && searchCityResults![selected]) {
+      inputEl.current!.value = '';
+      setRegion(searchCityResults![selected].url);
+      setCity(
+        searchCityResults![selected].name.slice(
+          0,
+          searchCityResults![selected].name.indexOf(','),
+        ),
+      );
+      setCountry(searchCityResults![selected].country);
+      setSearchCityResults([]);
+      setSelected(0);
+    }
+  };
+
+  const getCityInfo = (url: string, name: string, countr: string) => {
+    setRegion(url);
+    setCity(name.slice(0, name.indexOf(',')));
+    setCountry(countr);
+    inputEl.current!.value = '';
+    setSearchCityResults([]);
+    setSelected(0);
+  };
+
+  const closeSearchSuggestions = (target: EventTarget) => {
+    if (target !== inputEl.current) {
+      setSearchCityResults([]);
+      inputEl.current!.value = '';
+      setSelected(0);
+    }
+  };
+
   return (
-    <>
+    <div onClick={(e) => closeSearchSuggestions(e.target)}>
       <Search
         selected={selected}
-        getCityData={getCityData}
+        getCityInfo={getCityInfo}
         searchCityResults={searchCityResults!}
-        inputChangeHandler={inputChangeHandler}
+        inputTextChangeHandler={inputTextChangeHandler}
         inputEl={inputEl}
-        clearInput={clearInput}
+        keyPressHandler={keyPressHandler}
       />
       <CityData
         region={region}
@@ -117,7 +122,7 @@ const App = () => {
       />
 
       <DailyCityData weatherData={weatherData!} />
-    </>
+    </div>
   );
 };
 export default App;
