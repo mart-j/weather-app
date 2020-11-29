@@ -23,7 +23,7 @@ const App = () => {
   useEffect(() => {
     axios
       .get(
-        `http://api.weatherapi.com/v1/search.json?q=${inputValue
+        `https://api.weatherapi.com/v1/search.json?q=${inputValue
           .normalize('NFD')
           .replace(/[\u0300-\u036f]/g, '')}`,
         {
@@ -38,7 +38,7 @@ const App = () => {
       let accCopy = acc;
       accCopy += `${key}=${value}&`;
       return accCopy;
-    }, 'http://api.weatherapi.com/v1/forecast.json?');
+    }, 'https://api.weatherapi.com/v1/forecast.json?');
   };
 
   useEffect(() => {
