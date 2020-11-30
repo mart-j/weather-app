@@ -21,7 +21,7 @@ const CityData: FC<Props> = ({ region, city, country, weatherData }) => {
       '4': 'Thursday',
       '5': 'Friday',
       '6': 'Saturday',
-      '7': 'Sunday',
+      '0': 'Sunday',
     };
 
     const months: { [key: string]: string } = {
@@ -59,8 +59,9 @@ const CityData: FC<Props> = ({ region, city, country, weatherData }) => {
                 <div className={styles.dot}></div>
               </div>{' '}
               <img
-                src={`http:${weatherData?.current.condition.icon}`}
+                src={`http:${weatherData ? weatherData?.current.condition.icon : '//i.pinimg.com/originals/25/ef/28/25ef280441ad6d3a5ccf89960b4e95eb.gif'}`}
                 alt="weather condition"
+                width='90px'
               />
             </div>
           </div>

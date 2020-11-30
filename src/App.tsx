@@ -3,6 +3,7 @@ import axios from 'axios';
 import Search from './components/search/Search';
 import CityData from './components/CurrentCityData/CurrentityData';
 import DailyCityData from './components/dailyCityData/DailyCityData';
+import ParticleBackground from './components/particles/ParticlesBackground';
 import { CityType, WeatherDataType } from './Types';
 
 const App = () => {
@@ -106,6 +107,7 @@ const App = () => {
 
   return (
     <div onClick={(e) => closeSearchSuggestions(e.target)}>
+      {/* <ParticleBackground /> */}
       <Search
         selected={selected}
         getCityInfo={getCityInfo}
